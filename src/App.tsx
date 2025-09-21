@@ -1,24 +1,126 @@
-import React from "react";
+import React, { useState } from "react";
 import { PRODUCTS } from "./data/products";
+import type { Product, CartItem } from "./types";
+import ProductCard from "./components/ProductCard";
+import CartItemComponent from "./components/CartItem";
 import styles from "./App.module.css";
 
 const App: React.FC = () => {
-  return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>White Label Loyalty Supermarket</h1>
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
-      <section className={styles.productsSection}>
-        <h2 className={styles.sectionTitle}>Products</h2>
-        <div className={styles.productsList}>
-          {PRODUCTS.map((product) => (
-            <div key={product.code} className={styles.productItem}>
-              <div className={styles.productName}>{product.name}</div>
-              <div className={styles.productPrice}>£{product.price}</div>
-              <div className={styles.productCode}>{product.code}</div>
+  const addProduct = (product: Product) => {
+    setCartItems((prev) => {
+      const existingItem = prev.find(
+        (item) => item.product.code === product.code
+      );
+
+      if (existingItem) {
+        return prev.map((item) =>
+          item.product.code === product.code
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      }
+
+      return [...prev, { product, quantity: 1 }];
+    });
+  };
+
+  const increaseQuantity = (code: string) => {
+    setCartItems((prev) =>
+      prev.map((item) =>
+        item.product.code === code
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      )
+    );
+  };
+
+  const decreaseQuantity = (code: string) => {
+    setCartItems((prev) =>
+      prev
+        .map((item) =>
+          item.product.code === code
+            ? { ...item, quantity: item.quantity - 1 }
+            : item
+        )
+        .filter((item) => item.quantity > 0)
+    );
+  };
+
+  const clearCart = () => {
+    setCartItems([]);
+  };
+
+  const total = cartItems.reduce(
+    (sum, item) => sum + item.quantity * item.product.price,
+    0
+  );
+
+  return (
+    <div className={styles.app}>
+      <header className={styles.header}>
+        <h1 className={styles.title}>White Label Loyalty Supermarket</h1>
+        <p className={styles.subtitle}>
+          Click on products to add them to the cart
+        </p>
+      </header>
+
+      <main className={styles.mainContent}>
+        <section className={styles.productsSection}>
+          <h2 className={styles.sectionTitle}>Products</h2>
+          <div className={styles.productsGrid}>
+            {PRODUCTS.map((product) => (
+              <ProductCard
+                key={product.code}
+                product={product}
+                onAddProduct={addProduct}
+              />
+            ))}
+          </div>
+        </section>
+
+        <section className={styles.cartSection}>
+          <div className={styles.cartHeader}>
+            <h2 className={styles.sectionTitle}>Your Order</h2>
+            {cartItems.length > 0 && (
+              <button
+                onClick={clearCart}
+                className={styles.clearButton}
+                aria-label="Clear all items from cart"
+              >
+                Clear Cart
+              </button>
+            )}
+          </div>
+
+          {cartItems.length === 0 ? (
+            <div className={styles.emptyCart}>
+              <p className={styles.emptyMessage}>Your cart is empty</p>
+              <p className={styles.emptySubtext}>
+                Click on products to add them to your cart
+              </p>
             </div>
-          ))}
-        </div>
-      </section>
+          ) : (
+            <>
+              <div className={styles.cartItems}>
+                {cartItems.map((item) => (
+                  <CartItemComponent
+                    key={item.product.code}
+                    item={item}
+                    onIncrease={() => increaseQuantity(item.product.code)}
+                    onDecrease={() => decreaseQuantity(item.product.code)}
+                  />
+                ))}
+              </div>
+
+              <div className={styles.totalSection}>
+                <div className={styles.total}>Total: £{total.toFixed(2)}</div>
+              </div>
+            </>
+          )}
+        </section>
+      </main>
     </div>
   );
 };
