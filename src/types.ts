@@ -8,3 +8,13 @@ export interface CartItem {
   product: Product;
   quantity: number;
 }
+
+export interface CartState {
+  items: CartItem[];
+}
+
+export type CartAction =
+  | { type: "ADD_PRODUCT"; product: Product }
+  | { type: "INCREASE_QUANTITY"; code: string }
+  | { type: "DECREASE_QUANTITY"; code: string }
+  | { type: "CLEAR_CART" };

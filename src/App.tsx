@@ -1,56 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import { PRODUCTS } from "./data/products";
-import type { Product, CartItem } from "./types";
 import ProductCard from "./components/ProductCard";
 import CartItemComponent from "./components/CartItem";
 import styles from "./App.module.css";
+import { useCart } from "./hooks/useCart";
 
 const App: React.FC = () => {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-
-  const addProduct = (product: Product) => {
-    setCartItems((prev) => {
-      const existingItem = prev.find(
-        (item) => item.product.code === product.code
-      );
-
-      if (existingItem) {
-        return prev.map((item) =>
-          item.product.code === product.code
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
-      }
-
-      return [...prev, { product, quantity: 1 }];
-    });
-  };
-
-  const increaseQuantity = (code: string) => {
-    setCartItems((prev) =>
-      prev.map((item) =>
-        item.product.code === code
-          ? { ...item, quantity: item.quantity + 1 }
-          : item
-      )
-    );
-  };
-
-  const decreaseQuantity = (code: string) => {
-    setCartItems((prev) =>
-      prev
-        .map((item) =>
-          item.product.code === code
-            ? { ...item, quantity: item.quantity - 1 }
-            : item
-        )
-        .filter((item) => item.quantity > 0)
-    );
-  };
-
-  const clearCart = () => {
-    setCartItems([]);
-  };
+  const {
+    items: cartItems,
+    addProduct,
+    increaseQuantity,
+    decreaseQuantity,
+    clearCart,
+  } = useCart();
 
   const total = cartItems.reduce(
     (sum, item) => sum + item.quantity * item.product.price,
