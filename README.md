@@ -43,6 +43,7 @@ npm run test
 - Expand promotion engine for more complex discount rules.
 - Product search
 - Setup CI to run tests on every push
+- Checkout + payment integration
 
 ## AI Usage
 Used ChatGPT to verify discount logic.
