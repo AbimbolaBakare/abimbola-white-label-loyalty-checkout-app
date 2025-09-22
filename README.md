@@ -42,7 +42,7 @@ npm run test
 - Add persistent cart (localStorage/external library).
 - Expand promotion engine for more complex discount rules.
 - Product search
-- 
+- Setup CI to run tests on every push
 
 ## AI Usage
 Used ChatGPT to verify discount logic.
