@@ -1,0 +1,39 @@
+.orderSummary {
+  border-top: 2px solid #ede4db;
+  padding-top: 24px;
+  margin-top: 24px;
+}
+
+.summaryLine {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  color: #000000;
+  font-size: 1rem;
+}
+
+.discountLine {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  color: #2e7d32;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.totalLine {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 0 8px 0;
+  border-top: 1px solid #ede4db;
+  margin-top: 12px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #000000;
+}
+
+@media (max-width: 480px) {
+  .totalLine {
+    font-size: 1.3rem;
+  }
+}

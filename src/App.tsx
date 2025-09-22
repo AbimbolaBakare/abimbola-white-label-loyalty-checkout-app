@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { PRODUCTS } from "./data/products";
 import ProductCard from "./components/ProductCard";
 import CartItemComponent from "./components/CartItem";
+import OrderSummary from "./components/OrderSummary";
+import { calculateCartTotal } from "./utils/businessLogic";
 import styles from "./App.module.css";
 import { useCart } from "./hooks/useCart";
 
@@ -14,10 +16,7 @@ const App: React.FC = () => {
     clearCart,
   } = useCart();
 
-  const total = cartItems.reduce(
-    (sum, item) => sum + item.quantity * item.product.price,
-    0
-  );
+  const total = useMemo(() => calculateCartTotal(cartItems), [cartItems]);
 
   return (
     <div className={styles.app}>
@@ -76,9 +75,7 @@ const App: React.FC = () => {
                 ))}
               </div>
 
-              <div className={styles.totalSection}>
-                <div className={styles.total}>Total: £{total.toFixed(2)}</div>
-              </div>
+              <OrderSummary {...total} />
             </>
           )}
         </section>

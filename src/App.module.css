@@ -107,19 +107,6 @@
   margin-bottom: 24px;
 }
 
-.totalSection {
-  border-top: 2px solid #ede4db;
-  padding-top: 24px;
-}
-
-.total {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #000000;
-  text-align: right;
-}
-
-/* Responsiveness */
 @media (max-width: 1024px) {
   .mainContent {
     gap: 30px;
