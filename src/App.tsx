@@ -1,13 +1,15 @@
 import React, { useMemo } from "react";
-import { PRODUCTS } from "./data/products";
 import ProductCard from "./components/ProductCard";
 import CartItemComponent from "./components/CartItem";
 import OrderSummary from "./components/OrderSummary";
 import { calculateCartTotal } from "./utils/businessLogic";
 import styles from "./App.module.css";
 import { useCart } from "./hooks/useCart";
+import { useProducts } from "./hooks/useProducts";
+import ProductSkeleton from "./components/ProductSkeleton";
 
 const App: React.FC = () => {
+  const { products, isLoading, error, refetch } = useProducts();
   const {
     items: cartItems,
     addProduct,
@@ -18,26 +20,47 @@ const App: React.FC = () => {
 
   const total = useMemo(() => calculateCartTotal(cartItems), [cartItems]);
 
+  if (error) {
+    return (
+      <div className={styles.app}>
+        <div className={styles.errorContainer}>
+          <h1 className={styles.errorTitle}>Unable to Load Store</h1>
+          <p className={styles.errorMessage}>{error}</p>
+          <button onClick={refetch} className={styles.retryButton}>
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.app}>
       <header className={styles.header}>
         <h1 className={styles.title}>White Label Loyalty Supermarket</h1>
         <p className={styles.subtitle}>
-          Click on products to add them to the cart
+          {isLoading
+            ? "Loading products..."
+            : "Click on products to add them to the cart"}
         </p>
       </header>
 
       <main className={styles.mainContent}>
         <section className={styles.productsSection}>
           <h2 className={styles.sectionTitle}>Products</h2>
+
           <div className={styles.productsGrid}>
-            {PRODUCTS.map((product) => (
-              <ProductCard
-                key={product.code}
-                product={product}
-                onAddProduct={addProduct}
-              />
-            ))}
+            {isLoading
+              ? Array.from({ length: 3 }, (_, index) => (
+                  <ProductSkeleton key={`skeleton-${index}`} />
+                ))
+              : products.map((product) => (
+                  <ProductCard
+                    key={product.code}
+                    product={product}
+                    onAddProduct={addProduct}
+                  />
+                ))}
           </div>
         </section>
 
@@ -59,7 +82,9 @@ const App: React.FC = () => {
             <div className={styles.emptyCart}>
               <p className={styles.emptyMessage}>Your cart is empty</p>
               <p className={styles.emptySubtext}>
-                Click on products to add them to your cart
+                {isLoading
+                  ? "Loading products..."
+                  : "Click on products to add them to the cart"}
               </p>
             </div>
           ) : (

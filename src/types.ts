@@ -20,6 +20,13 @@ export interface DiscountResult {
   grandTotal: number;
 }
 
+export interface ProductsResult {
+  products: Product[];
+  isLoading: boolean;
+  error: string | null;
+  refetch: () => void;
+}
+
 export type CartAction =
   | { type: "ADD_PRODUCT"; product: Product }
   | { type: "INCREASE_QUANTITY"; code: string }

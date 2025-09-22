@@ -1,0 +1,39 @@
+.skeleton {
+  background: #faf8f5;
+  border: 2px solid #ede4db;
+  border-radius: 12px;
+  padding: 24px;
+  text-align: left;
+  animation: pulse 1.5s ease-in-out infinite alternate;
+}
+
+.skeletonName {
+  height: 20px;
+  background: #ede4db;
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+
+.skeletonPrice {
+  height: 24px;
+  background: #ede4db;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  width: 70%;
+}
+
+.skeletonCode {
+  height: 16px;
+  background: #ede4db;
+  border-radius: 20px;
+  width: 40%;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.7;
+  }
+}
