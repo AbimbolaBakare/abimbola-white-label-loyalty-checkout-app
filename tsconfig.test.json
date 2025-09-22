@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "verbatimModuleSyntax": false,
+    "esModuleInterop": true,
+    "allowImportingTsExtensions": false,
+    "moduleResolution": "node",
+    "module": "CommonJS",
+    "target": "ES2022"
+  },
+  "include": ["src/**/*", "src/types/**/*"]
+}
