@@ -1,69 +1,48 @@
-# React + TypeScript + Vite
+# White Label Loyalty - Grocery Store
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React checkout application built with TypeScript.
 
-Currently, two official plugins are available:
+## Run locally
+```bash
+# Install dependencies
+npm install
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# Start dev server
+npm run dev
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Run tests
+npm run test
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Project Overview
+- Add products to the cart by clicking.
+- Increment product quantity by clicking multiple times.
+- Buy-one-get-one-free on Asparagus.
+- 20% discount applied if total > £10.
+- Cart summary shows subtotal, discounts, and final total.
+- Unit tested.
+- Memoized calculations and optimized re-renders.
+- Component-based design with clear separation of concerns.
+- Mobile-first approach with CSS Grid and Flexbox
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Tech Stack
+- React + TypeScript
+- Vite for fast build/dev server
+- CSS modules for styling
+- Reducer for cart state management
+- Jest and RTL for testing
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Tradeoffs
+- No backend: Kept product list static to reduce complexity.
+- No global state lib (Redux/Zustand): Cart handled with  useReducer since scope is small.
+- No use of styling library since focus is on functionality
+  
+## Future enhancements
+- API-driven: Replace mock service with real API integration.
+- Add persistent cart (localStorage/external library).
+- Expand promotion engine for more complex discount rules.
+- Product search
+- 
+
+## AI Usage
+Used ChatGPT to verify discount logic.
